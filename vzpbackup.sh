@@ -27,6 +27,7 @@ BACKUP_DIR=/store/vzpbackup
 WORK_DIR=/store/vzpbackup
 COMPRESS=no
 COMPACT=0
+FILENAME
 
 ##
 ## VARIABLES
@@ -67,6 +68,7 @@ Usage: $0
 \t[--suspend=<yes/no>]
 \t[--backup-dir=<Backup-Directory>]
 \t[--work-dir=<Temp-Directory>]
+\t[--filename=<final name of the backup file>]
 \t[--compress=<no/pz/bz/pbz/tbz/gz/tgz/xz/txz>]
 \t[--compact]
 \t[--all]
@@ -81,6 +83,7 @@ show_param() {
 	echo -e "SUSPEND: \t\t$SUSPEND"
 	echo -e "BACKUP_DIR: \t\t$BACKUP_DIR"
 	echo -e "WORK_DIR: \t\t$WORK_DIR"
+    echo -e "FILENAME: \t\t$FILENAME"
 	echo -e "COMPRESS: \t\t$COMPRESS"
 	echo -e "COMPACT: \t\t$COMPACT"
 	echo -e "CTIDs to backup: \t\t$CTIDS"
@@ -117,6 +120,9 @@ case $i in
     ;;
     --work-dir=*)
       	WORK_DIR=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
+    ;;
+    --filename=*)
+      	FILENAME=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
     ;;
     --compress=*)
 		COMPRESS=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
@@ -191,7 +197,11 @@ if grep -w "$CTID" <<< `$VZLIST_CMD -a -Hoctid` &> /dev/null; then
 	# a possible the dump (while being suspended) and container config
 	cd $VE_PRIVATE
 	HNAME=`$VZLIST_CMD -Hohostname $CTID`
+
+    if [ -z "$FILENAME" ]; then 
 	FILENAME="${PREFIX}${CTID}_${HNAME}_${TIMESTAMP}"
+    fi
+    
 
 	COMPRESS_SUFFIX=""
         if [ "$COMPRESS" == "tgz" ]; then

@@ -16,6 +16,7 @@ Usage: ./vzpbackup.sh
 	[--suspend=<yes/no>]
 	[--backup-dir=<Backup-Directory>]
 	[--work-dir=<Temp-Directory>]
+	[--filename=<final name of the file>]
 	[--compress=<no/pz/bz/pbz/tbz/gz/tgz/xz/txz>]
 	[--compact]
 	[--all]
@@ -48,6 +49,10 @@ Options:
 	Parameter to change the default working directory. Either
         use the parameter or change the script.
 
+--filename=\<File name> (Default: vzpbackup_+hostname_+CTID+_containerhostname_+timestamp)
+
+	Parameter top change the default backup filename
+	
 --compact
 
 	Runs vzctl compact for each container before initiating
