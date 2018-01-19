@@ -49,10 +49,10 @@ Options:
 	Parameter to change the default working directory. Either
         use the parameter or change the script.
 
---filename=\<File name> (Default: vzpbackup_+hostname_+CTID+_containerhostname_+timestamp)
+--filename=\<File name> (Default: vzpbackup+_hostname_+CTID+_containerhostname_+timestamp)
 
-	Parameter top change the default backup filename
-	
+	Parameter to change the default backup filename
+
 --compact
 
 	Runs vzctl compact for each container before initiating
